@@ -12,8 +12,10 @@ import requests
 from getpass import getpass
 
 # Tk 用于弹出选择文件夹的界面
-import tkinter as tk
-from tkinter import filedialog
+# import tkinter as tk
+# from tkinter import filedialog
+# 貌似我想多了诶，直接放在同一个文件夹下不就好了……
+import os
 
 # 没错，登陆的时候密码是明文传输的……
 Login_URL = "http://abook.hep.com.cn/loginMobile.action"
@@ -43,11 +45,11 @@ def Get_Lessons(Cookies):
     return Lessons_JSON
 
 
-def Select_Folder():
-    pass
-    # root = tk.Tk()
-    # root.withdraw()
-    # file_path = filedialog.askopenfilename()
+def mkdir(path):
+    path = path.strip()
+    isExists = os.path.exists(path)
+    if not isExists:
+        os.makedirs(path)
 
 
 def Write_Contents():
@@ -66,7 +68,7 @@ def Write_Contents():
 
 if __name__ == '__main__':
     Username = input("请输入您登陆 Abook 的时候使用的用户名：\n")
-    Password = getpass("请输入您的密码：\n")
+    Password = getpass("请输入您的密码（输入的时候看不见任何东西）：\n")
     # 一句小小的提醒
     print(
         "\n友情提醒：\n您与高等教育出版社的 Abook 服务器之间的数据，在互联网上是明文传输的，这意味着任何有心人都能“看到”您 Abook 的密码。\n如果您的 Abook 密码和别的常用软件，例如 QQ，重复的话，强烈建议修改！！！"
@@ -81,7 +83,7 @@ if __name__ == '__main__':
         pass
     # 此处有错，因为 requests 木有 title 这个属性，当然意思是这个意思
     elif Login_Result.title == "用户失效":
-        print("用户名或密码错误，请检查……")
+        print("用户名或密码错误，请检查……（若确认无误，麻烦开一个 Issue 以协助排查）")
     else:
         print("登陆失败，麻烦开个 Issue 以协助排查您的问题")
 
@@ -103,3 +105,5 @@ if __name__ == '__main__':
     # Prompt for saving locationg
 
     # 下载资源，写入
+
+    # 询问是否还需要下载下一本书
